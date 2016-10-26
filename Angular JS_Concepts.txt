@@ -1,0 +1,30 @@
+AngularJS Overview (ng v1 & v2-beta)
+Introduction to AngularJS v1 (ES5, ES6, jqLite, angular.element)
+Binding
+Controllers
+Services
+Forms (Validation)
+Promises (API reference - $q)
+$http and Server Interaction
+Filters
+Directives (Basic Directive Functionality, Directive Communication, Understanding Isolate Scope - @,=,&)
+Animations (ngAnimate)
+Templates
+Routing
+$scope vs. scope
+What is MEAN?
+
+https://github.com/johnpapa/angular-styleguide/blob/master/a1/README.md
+
+Lazy loading
+Directive in Details
+Coding Standards
+Minification Issue
+ui-grid for angular js
+Routing inside routing
+Exception Handling
+Dependency Injection
+Route Resolver Dependency
+
+
+
