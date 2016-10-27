@@ -1,0 +1,32 @@
+﻿@{
+    ViewBag.Title = "Home Page";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@*<head>
+    <base href="/DMS/" />
+</head>*@
+
+<script type="text/javascript">
+    ddaccordion.init({
+        headerclass: "expandable",
+        contentclass: "sidebar-list",
+        revealtype: "click",
+        collapseprev: true,
+        defaultexpanded: [1],
+        onemustopen: false,
+        animatedefault: false,
+        persiststate: false,
+        toggleclass: ["", "openheader"],
+        togglehtml: ["prefix", "", ""],
+        animatespeed: "normal",
+        oninit: function (headers, expandedindices) {
+        },
+        onopenclose: function (header, index, state, isuseractivated) {
+        }
+    });
+</script>
+
+<div ui-view>
+    <h1> Hello in Main Home </h1>
+</div>

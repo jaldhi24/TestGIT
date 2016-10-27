@@ -1,0 +1,21 @@
+﻿
+<div ng-controller="loginController">
+    <form class="form-horizontal formAlign" role="form">
+        <h2 class="CustomStyle">Login to your account</h2>
+        <div class="form-group">
+            <label class="col-sm-3 col-lg-2 control-label">ServerName</label>
+            <div class="col-sm-6 col-md-4"><input type="text" name="serverName" class="form-control" ng-model="serverName" required></div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 col-lg-2 control-label">Password</label>
+            <div class="col-sm-6 col-md-4"><input type="password" name="password" class="form-control" ng-model="password" required></div>
+        </div>
+        <div class="row form-group">
+            <label class="col-sm-3 control-label"></label>
+            <div class="col-sm-9">
+                <input type="button" class="btn btn-primary" id="save" value="Login" data-ng-click="save()" />
+                <input type="button" class="btn btn-primary" id="Clear" value="Cancel" data-ng-click="Clear()" />
+            </div>
+        </div>
+    </form>
+</div>

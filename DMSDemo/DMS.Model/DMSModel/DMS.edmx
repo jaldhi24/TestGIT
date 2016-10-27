@@ -1,0 +1,542 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+    <Schema Namespace="DMSModel.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2012" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="DocumentDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="100" Nullable="false" />
+          <Property Name="Description" Type="varchar(max)" />
+          <Property Name="ContentTypeID" Type="int" Nullable="false" />
+          <Property Name="FilePath" Type="varchar(max)" />
+          <Property Name="CodePath" Type="varchar(max)" />
+          <Property Name="DocCreatedBy" Type="varchar(max)" Nullable="false" />
+          <Property Name="UserID" Type="int" Nullable="false" />
+          <Property Name="TechnologyID" Type="int" Nullable="false" />
+          <Property Name="CreatedOn" Type="datetime" Nullable="false" />
+          <Property Name="UpdatedOn" Type="datetime" />
+        </EntityType>
+        <EntityType Name="LookupDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LookupMasterId" Type="int" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="LookupMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="SkillDetails">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="LookupDetailsId" Type="int" Nullable="false" />
+          <Property Name="Active" Type="bit" Nullable="false" />
+          <Property Name="Name" Type="nvarchar" MaxLength="30" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Tokens">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="AuthToken" Type="nvarchar(max)" Nullable="false" />
+          <Property Name="IssuedOn" Type="datetime" Nullable="false" />
+          <Property Name="ExpiresOn" Type="datetime" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="ServerName" Type="nvarchar" MaxLength="30" Nullable="false" />
+          <Property Name="UserName" Type="nvarchar(max)" Nullable="false" />
+        </EntityType>
+        <EntityType Name="UserSkills">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="int" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="UserId" Type="int" Nullable="false" />
+          <Property Name="TechnologyId" Type="varchar(max)" />
+          <Property Name="SkillId" Type="varchar(max)" />
+        </EntityType>
+        <Association Name="FK__DocumentD__Conte__45F365D3">
+          <End Role="LookupDetails" Type="Self.LookupDetails" Multiplicity="1" />
+          <End Role="DocumentDetails" Type="Self.DocumentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentDetails">
+              <PropertyRef Name="ContentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentD__Techn__46E78A0C">
+          <End Role="LookupDetails" Type="Self.LookupDetails" Multiplicity="1" />
+          <End Role="DocumentDetails" Type="Self.DocumentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentDetails">
+              <PropertyRef Name="TechnologyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentD__UserI__47DBAE45">
+          <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="1" />
+          <End Role="DocumentDetails" Type="Self.DocumentDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentDetails">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__LookupDet__Looku__1FCDBCEB">
+          <End Role="LookupMaster" Type="Self.LookupMaster" Multiplicity="0..1" />
+          <End Role="LookupDetails" Type="Self.LookupDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LookupDetails">
+              <PropertyRef Name="LookupMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__SkillDeta__Looku__6EF57B66">
+          <End Role="LookupDetails" Type="Self.LookupDetails" Multiplicity="1" />
+          <End Role="SkillDetails" Type="Self.SkillDetails" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupDetails">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SkillDetails">
+              <PropertyRef Name="LookupDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tokens__UserId__0C85DE4D">
+          <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="1" />
+          <End Role="Tokens" Type="Self.Tokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tokens__UserId__0D7A0286">
+          <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="1" />
+          <End Role="Tokens" Type="Self.Tokens" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Tokens">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__UserSkill__UserI__10566F31">
+          <End Role="UserLogin" Type="Self.UserLogin" Multiplicity="1" />
+          <End Role="UserSkills" Type="Self.UserSkills" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSkills">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DMSModelStoreContainer">
+          <EntitySet Name="DocumentDetails" EntityType="Self.DocumentDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LookupDetails" EntityType="Self.LookupDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="LookupMaster" EntityType="Self.LookupMaster" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="SkillDetails" EntityType="Self.SkillDetails" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Tokens" EntityType="Self.Tokens" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserLogin" EntityType="Self.UserLogin" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="UserSkills" EntityType="Self.UserSkills" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="FK__DocumentD__Conte__45F365D3" Association="Self.FK__DocumentD__Conte__45F365D3">
+            <End Role="LookupDetails" EntitySet="LookupDetails" />
+            <End Role="DocumentDetails" EntitySet="DocumentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentD__Techn__46E78A0C" Association="Self.FK__DocumentD__Techn__46E78A0C">
+            <End Role="LookupDetails" EntitySet="LookupDetails" />
+            <End Role="DocumentDetails" EntitySet="DocumentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentD__UserI__47DBAE45" Association="Self.FK__DocumentD__UserI__47DBAE45">
+            <End Role="UserLogin" EntitySet="UserLogin" />
+            <End Role="DocumentDetails" EntitySet="DocumentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__LookupDet__Looku__1FCDBCEB" Association="Self.FK__LookupDet__Looku__1FCDBCEB">
+            <End Role="LookupMaster" EntitySet="LookupMaster" />
+            <End Role="LookupDetails" EntitySet="LookupDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__SkillDeta__Looku__6EF57B66" Association="Self.FK__SkillDeta__Looku__6EF57B66">
+            <End Role="LookupDetails" EntitySet="LookupDetails" />
+            <End Role="SkillDetails" EntitySet="SkillDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tokens__UserId__0C85DE4D" Association="Self.FK__Tokens__UserId__0C85DE4D">
+            <End Role="UserLogin" EntitySet="UserLogin" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tokens__UserId__0D7A0286" Association="Self.FK__Tokens__UserId__0D7A0286">
+            <End Role="UserLogin" EntitySet="UserLogin" />
+            <End Role="Tokens" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__UserSkill__UserI__10566F31" Association="Self.FK__UserSkill__UserI__10566F31">
+            <End Role="UserLogin" EntitySet="UserLogin" />
+            <End Role="UserSkills" EntitySet="UserSkills" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema></edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DMSModel" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="LookupDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LookupMasterId" Type="Int32" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="LookupMaster" Relationship="Self.FK__LookupDet__Looku__1FCDBCEB" FromRole="LookupDetails" ToRole="LookupMaster" />
+          <NavigationProperty Name="DocumentDetails" Relationship="DMSModel.FK__DocumentD__Conte__45F365D3" FromRole="LookupDetail" ToRole="DocumentDetail" />
+          <NavigationProperty Name="DocumentDetails1" Relationship="DMSModel.FK__DocumentD__Techn__46E78A0C" FromRole="LookupDetail" ToRole="DocumentDetail" />
+          <NavigationProperty Name="SkillDetails" Relationship="DMSModel.FK__SkillDeta__Looku__6EF57B66" FromRole="LookupDetail" ToRole="SkillDetail" />
+          </EntityType>
+        <EntityType Name="LookupMaster">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" MaxLength="30" FixedLength="false" Unicode="true" Nullable="false" />
+          <NavigationProperty Name="LookupDetails" Relationship="Self.FK__LookupDet__Looku__1FCDBCEB" FromRole="LookupMaster" ToRole="LookupDetails" />
+        </EntityType>
+        <Association Name="FK__LookupDet__Looku__1FCDBCEB">
+          <End Role="LookupMaster" Type="Self.LookupMaster" Multiplicity="0..1" />
+          <End Role="LookupDetails" Type="Self.LookupDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupMaster">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="LookupDetails">
+              <PropertyRef Name="LookupMasterId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DMSEntities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="LookupDetails" EntityType="Self.LookupDetail" />
+          <EntitySet Name="LookupMasters" EntityType="Self.LookupMaster" />
+          <AssociationSet Name="FK__LookupDet__Looku__1FCDBCEB" Association="Self.FK__LookupDet__Looku__1FCDBCEB">
+            <End Role="LookupMaster" EntitySet="LookupMasters" />
+            <End Role="LookupDetails" EntitySet="LookupDetails" />
+          </AssociationSet>
+          <EntitySet Name="UserLogins" EntityType="DMSModel.UserLogin" />
+          <EntitySet Name="DocumentDetails" EntityType="DMSModel.DocumentDetail" />
+          <AssociationSet Name="FK__DocumentD__Conte__45F365D3" Association="DMSModel.FK__DocumentD__Conte__45F365D3">
+            <End Role="LookupDetail" EntitySet="LookupDetails" />
+            <End Role="DocumentDetail" EntitySet="DocumentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentD__Techn__46E78A0C" Association="DMSModel.FK__DocumentD__Techn__46E78A0C">
+            <End Role="LookupDetail" EntitySet="LookupDetails" />
+            <End Role="DocumentDetail" EntitySet="DocumentDetails" />
+          </AssociationSet>
+          <AssociationSet Name="FK__DocumentD__UserI__47DBAE45" Association="DMSModel.FK__DocumentD__UserI__47DBAE45">
+            <End Role="UserLogin" EntitySet="UserLogins" />
+            <End Role="DocumentDetail" EntitySet="DocumentDetails" />
+          </AssociationSet>
+          <EntitySet Name="Tokens" EntityType="DMSModel.Token" />
+          <AssociationSet Name="FK__Tokens__UserId__0C85DE4D" Association="DMSModel.FK__Tokens__UserId__0C85DE4D">
+            <End Role="UserLogin" EntitySet="UserLogins" />
+            <End Role="Token" EntitySet="Tokens" />
+          </AssociationSet>
+          <AssociationSet Name="FK__Tokens__UserId__0D7A0286" Association="DMSModel.FK__Tokens__UserId__0D7A0286">
+            <End Role="UserLogin" EntitySet="UserLogins" />
+            <End Role="Token" EntitySet="Tokens" />
+          </AssociationSet>
+          <EntitySet Name="UserSkills" EntityType="DMSModel.UserSkill" />
+          <AssociationSet Name="FK__UserSkill__UserI__10566F31" Association="DMSModel.FK__UserSkill__UserI__10566F31">
+            <End Role="UserLogin" EntitySet="UserLogins" />
+            <End Role="UserSkill" EntitySet="UserSkills" />
+          </AssociationSet>
+          <EntitySet Name="SkillDetails" EntityType="DMSModel.SkillDetail" />
+          <AssociationSet Name="FK__SkillDeta__Looku__6EF57B66" Association="DMSModel.FK__SkillDeta__Looku__6EF57B66">
+            <End Role="LookupDetail" EntitySet="LookupDetails" />
+            <End Role="SkillDetail" EntitySet="SkillDetails" />
+          </AssociationSet>
+          </EntityContainer>
+        <EntityType Name="UserLogin">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="ServerName" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <Property Name="UserName" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="DocumentDetails" Relationship="DMSModel.FK__DocumentD__UserI__47DBAE45" FromRole="UserLogin" ToRole="DocumentDetail" />
+          <NavigationProperty Name="Tokens" Relationship="DMSModel.FK__Tokens__UserId__0C85DE4D" FromRole="UserLogin" ToRole="Token" />
+          <NavigationProperty Name="Tokens1" Relationship="DMSModel.FK__Tokens__UserId__0D7A0286" FromRole="UserLogin" ToRole="Token" />
+          <NavigationProperty Name="UserSkills" Relationship="DMSModel.FK__UserSkill__UserI__10566F31" FromRole="UserLogin" ToRole="UserSkill" />
+        </EntityType>
+        <EntityType Name="DocumentDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="100" FixedLength="false" Unicode="true" />
+          <Property Name="Description" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="ContentTypeID" Type="Int32" Nullable="false" />
+          <Property Name="FilePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="CodePath" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="DocCreatedBy" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="UserID" Type="Int32" Nullable="false" />
+          <Property Name="TechnologyID" Type="Int32" Nullable="false" />
+          <Property Name="CreatedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="UpdatedOn" Type="DateTime" Precision="3" />
+          <NavigationProperty Name="LookupDetail" Relationship="DMSModel.FK__DocumentD__Conte__45F365D3" FromRole="DocumentDetail" ToRole="LookupDetail" />
+          <NavigationProperty Name="LookupDetail1" Relationship="DMSModel.FK__DocumentD__Techn__46E78A0C" FromRole="DocumentDetail" ToRole="LookupDetail" />
+          <NavigationProperty Name="UserLogin" Relationship="DMSModel.FK__DocumentD__UserI__47DBAE45" FromRole="DocumentDetail" ToRole="UserLogin" />
+        </EntityType>
+        <Association Name="FK__DocumentD__Conte__45F365D3">
+          <End Type="DMSModel.LookupDetail" Role="LookupDetail" Multiplicity="1" />
+          <End Type="DMSModel.DocumentDetail" Role="DocumentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentDetail">
+              <PropertyRef Name="ContentTypeID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentD__Techn__46E78A0C">
+          <End Type="DMSModel.LookupDetail" Role="LookupDetail" Multiplicity="1" />
+          <End Type="DMSModel.DocumentDetail" Role="DocumentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentDetail">
+              <PropertyRef Name="TechnologyID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__DocumentD__UserI__47DBAE45">
+          <End Type="DMSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
+          <End Type="DMSModel.DocumentDetail" Role="DocumentDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="DocumentDetail">
+              <PropertyRef Name="UserID" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="Token">
+          <Key>
+            <PropertyRef Name="TokenId" />
+          </Key>
+          <Property Name="TokenId" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="AuthToken" Type="String" Nullable="false" MaxLength="Max" FixedLength="false" Unicode="true" />
+          <Property Name="IssuedOn" Type="DateTime" Nullable="false" Precision="3" />
+          <Property Name="ExpiresOn" Type="DateTime" Nullable="false" Precision="3" />
+          <NavigationProperty Name="UserLogin" Relationship="DMSModel.FK__Tokens__UserId__0C85DE4D" FromRole="Token" ToRole="UserLogin" />
+          <NavigationProperty Name="UserLogin1" Relationship="DMSModel.FK__Tokens__UserId__0D7A0286" FromRole="Token" ToRole="UserLogin" />
+        </EntityType>
+        <Association Name="FK__Tokens__UserId__0C85DE4D">
+          <End Type="DMSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
+          <End Type="DMSModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="FK__Tokens__UserId__0D7A0286">
+          <End Type="DMSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
+          <End Type="DMSModel.Token" Role="Token" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="Token">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="UserSkill">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="UserId" Type="Int32" Nullable="false" />
+          <Property Name="TechnologyId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <Property Name="SkillId" Type="String" MaxLength="Max" FixedLength="false" Unicode="false" />
+          <NavigationProperty Name="UserLogin" Relationship="DMSModel.FK__UserSkill__UserI__10566F31" FromRole="UserSkill" ToRole="UserLogin" />
+        </EntityType>
+        <Association Name="FK__UserSkill__UserI__10566F31">
+          <End Type="DMSModel.UserLogin" Role="UserLogin" Multiplicity="1" />
+          <End Type="DMSModel.UserSkill" Role="UserSkill" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="UserLogin">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="UserSkill">
+              <PropertyRef Name="UserId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityType Name="SkillDetail">
+          <Key>
+            <PropertyRef Name="Id" />
+          </Key>
+          <Property Name="Id" Type="Int32" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="LookupDetailsId" Type="Int32" Nullable="false" />
+          <Property Name="Active" Type="Boolean" Nullable="false" />
+          <Property Name="Name" Type="String" Nullable="false" MaxLength="30" FixedLength="false" Unicode="true" />
+          <NavigationProperty Name="LookupDetail" Relationship="DMSModel.FK__SkillDeta__Looku__6EF57B66" FromRole="SkillDetail" ToRole="LookupDetail" />
+        </EntityType>
+        <Association Name="FK__SkillDeta__Looku__6EF57B66">
+          <End Type="DMSModel.LookupDetail" Role="LookupDetail" Multiplicity="1" />
+          <End Type="DMSModel.SkillDetail" Role="SkillDetail" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="LookupDetail">
+              <PropertyRef Name="Id" />
+            </Principal>
+            <Dependent Role="SkillDetail">
+              <PropertyRef Name="LookupDetailsId" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DMSModelStoreContainer" CdmEntityContainer="DMSEntities">
+          <EntitySetMapping Name="LookupDetails">
+            <EntityTypeMapping TypeName="DMSModel.LookupDetail">
+              <MappingFragment StoreEntitySet="LookupDetails">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="LookupMasterId" ColumnName="LookupMasterId" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="LookupMasters">
+            <EntityTypeMapping TypeName="DMSModel.LookupMaster">
+              <MappingFragment StoreEntitySet="LookupMaster">
+                <ScalarProperty Name="Id" ColumnName="Id" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserLogins">
+            <EntityTypeMapping TypeName="DMSModel.UserLogin">
+              <MappingFragment StoreEntitySet="UserLogin">
+                <ScalarProperty Name="UserName" ColumnName="UserName" />
+                <ScalarProperty Name="ServerName" ColumnName="ServerName" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="DocumentDetails">
+            <EntityTypeMapping TypeName="DMSModel.DocumentDetail">
+              <MappingFragment StoreEntitySet="DocumentDetails">
+                <ScalarProperty Name="UpdatedOn" ColumnName="UpdatedOn" />
+                <ScalarProperty Name="CreatedOn" ColumnName="CreatedOn" />
+                <ScalarProperty Name="TechnologyID" ColumnName="TechnologyID" />
+                <ScalarProperty Name="UserID" ColumnName="UserID" />
+                <ScalarProperty Name="DocCreatedBy" ColumnName="DocCreatedBy" />
+                <ScalarProperty Name="CodePath" ColumnName="CodePath" />
+                <ScalarProperty Name="FilePath" ColumnName="FilePath" />
+                <ScalarProperty Name="ContentTypeID" ColumnName="ContentTypeID" />
+                <ScalarProperty Name="Description" ColumnName="Description" />
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Tokens">
+            <EntityTypeMapping TypeName="DMSModel.Token">
+              <MappingFragment StoreEntitySet="Tokens">
+                <ScalarProperty Name="ExpiresOn" ColumnName="ExpiresOn" />
+                <ScalarProperty Name="IssuedOn" ColumnName="IssuedOn" />
+                <ScalarProperty Name="AuthToken" ColumnName="AuthToken" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="TokenId" ColumnName="TokenId" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="UserSkills">
+            <EntityTypeMapping TypeName="DMSModel.UserSkill">
+              <MappingFragment StoreEntitySet="UserSkills">
+                <ScalarProperty Name="SkillId" ColumnName="SkillId" />
+                <ScalarProperty Name="TechnologyId" ColumnName="TechnologyId" />
+                <ScalarProperty Name="UserId" ColumnName="UserId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="SkillDetails">
+            <EntityTypeMapping TypeName="DMSModel.SkillDetail">
+              <MappingFragment StoreEntitySet="SkillDetails">
+                <ScalarProperty Name="Name" ColumnName="Name" />
+                <ScalarProperty Name="Active" ColumnName="Active" />
+                <ScalarProperty Name="LookupDetailsId" ColumnName="LookupDetailsId" />
+                <ScalarProperty Name="Id" ColumnName="Id" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="true" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

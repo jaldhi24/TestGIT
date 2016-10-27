@@ -1,0 +1,48 @@
+﻿<!DOCTYPE html>
+<html lang="en" ng-app="DMS">
+<head>
+    <meta charset="utf-8" />
+    <title>@ViewBag.Title - My ASP.NET MVC Application</title>
+    <link href="~/favicon.ico" rel="shortcut icon" type="image/x-icon" />
+    <meta name="viewport" content="width=device-width" />
+    @Styles.Render("~/Content/css")
+    @Scripts.Render("~/bundles/jquery")
+    @*@Scripts.Render("~/bundles/angular")
+    @Scripts.Render("~/bundles/login")    
+    @Scripts.Render("~/bundles/SignUp")*@
+    @Scripts.Render("~/bundles/modernizr")
+
+    <script src="~/Scripts/angular.js"></script>
+    <script src="~/Scripts/angular-ui-router.js"></script>
+    <script src="~/Scripts/angular-resource.js"></script>
+    <script src="~/Scripts/ddaccordion.js"></script>
+    <script src="~/Scripts/toastr.js"></script>
+    <script src="~/JS/appConfig.js"></script>
+    <script src="~/JS/Login/Signupmodule.js"></script>
+    <script src="~/JS/Common.js"></script>
+    <script src="~/JS/Services/DocumentService.js"></script>
+    <script src="~/JS/Services/HomeService.js"></script>
+    <script src="~/JS/Services/RegistrationService.js"></script>
+    <script src="~/JS/Controller/DocumentController.js"></script>
+    <script src="~/JS/Controller/RegistrationController.js"></script>
+    <script src="~/JS/Controller/loginController.js"></script>
+    <script src="~/JS/Controller/HomeController.js"></script>
+    <script src="~/Scripts/jquery.responsiveTabs.js"></script>
+
+</head>
+<body>
+    <div id="main">
+        <div id="wrapper">
+            <header id="header">
+                <div class="logo"><a href="#"></a></div>
+            </header>
+            <div id="page-content-wrapper">
+                @RenderBody()
+            </div>
+        </div>
+        <footer class="footer"><p>Copyright &copy; 2015 Advanced Management Systems. All rights reserved.</p></footer>
+    </div>
+    <!-- Main end -->
+    @Scripts.Render("~/bundles/bootstrap")
+</body>
+</html>

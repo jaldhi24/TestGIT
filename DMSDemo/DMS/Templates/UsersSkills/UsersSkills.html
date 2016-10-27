@@ -1,0 +1,87 @@
+﻿<div ng-controller="UsersSkillController">
+    <h2 class="CustomStyle1">User's Skills</h2>
+    <div ng-show="addNewUserSkillDisplay">
+        <button ng-click="AddNewUserSkills()"><img src="Images/add.png" /></button> <label>Add New User Skill</label>
+    </div>
+    <div>
+        <button ng-click="EditUserSkills()"><img src="Images/ic-edit.png" /></button> <label>Edit User Skill</label>
+    </div>
+    <form class="container" name="userskillForm" ng-show="formUserSkill" novalidate>
+        <div class="col-md-12">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row form-group">
+                        <label class="col-sm-3 control-label"><label class="mandetoryField" />User Name</label>
+                        <div class="col-sm-6">
+                            <label class="col-sm-3 control-label"><label class="mandetoryField" />{{UserName}}</label>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 control-label"><label class="mandetoryField" />Technology Name</label>
+                        <div class="col-sm-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox"
+                                                   ng-click="selectAll($event)"
+                                                   ng-checked="isSelectedAll()"> &nbsp;&nbsp;&nbsp;Select All
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="e in AllTechnology" ng-class="getSelectedClass(e)">
+                                        <td>
+                                            <input type="checkbox" name="selected"
+                                                   ng-checked="isSelected(e.id)"
+                                                   ng-click="updateSelection($event, e.id)">&nbsp;&nbsp;&nbsp;{{e.TechName}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row form-group" ng-show="SkillDiv">
+                        <label class="col-sm-3  control-label"><label class="mandetoryField" />Skill Name</label>
+                        <div class="col-sm-6">
+                            <table class="table">
+                                <thead>
+                                    <tr>
+                                        <th>
+                                            <input type="checkbox"
+                                                   ng-click="SkillselectAll($event)"
+                                                   ng-checked="isSkillSelectedAll()"> &nbsp;&nbsp;&nbsp;Select All
+                                        </th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr ng-repeat="e in AllSkillByTech" ng-class="getSkillSelectedClass(e)">
+                                        <td>
+                                            <input type="checkbox" name="Skillselected"
+                                                   ng-checked="isSkillSelected(e.Id)"
+                                                   ng-click="updateSkillSelection($event, e.Id)">&nbsp;&nbsp;&nbsp;{{e.Name}}
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                    <div class="row form-group">
+                        <label class="col-sm-3 control-label"><label class="mandetoryField" /></label>
+                        <div class="col-sm-6">
+                            <input type="submit" name="name" value="Submit" ng-click="save(userForm)" class="btn btn-primary" />
+                            <!--<input type="button" class="btn btn-primary" id="save" value="Save" data-ng-click="save()" />-->
+                            <input type="button" class="btn btn-primary" id="Clear" value="Clear" data-ng-click="Clear(userForm)" />
+                            <input type="button" class="btn btn-primary" value="Cancel" data-ng-click="Cancel()" />
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>        
+    </form>
+    <br />
+    <div class="wthbox" ng-show="userSkillList">
+        <table class="table grid table-condensed table-hover" id="tblUserSkills" width="100%"></table>
+    </div>
+</div>
+

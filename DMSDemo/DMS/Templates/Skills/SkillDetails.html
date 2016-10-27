@@ -1,0 +1,82 @@
+﻿<div ng-controller="SkillController">
+    <h2 class="CustomStyle1">Skills</h2>
+    <br />
+    <form class="container" name="skillForm" ng-show="EditMode" novalidate>
+        <div class="col-md-12">
+            <div class="alert alert-danger alert-dismissible" ng-show="validErrors">
+                <ul>
+                    <li ng-repeat="error in validationErrors">{{error}}</li>
+                </ul>
+            </div>
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="col-md-12">
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label"><label class="mandetoryField" />Technology Name</label>
+                            <div class="col-sm-6">
+                                <label ng-bind="selectedTech"></label>
+                                <!--<table>
+                                    <tr ng-repeat="technology in AllTechnology">
+                                        <td><span ng-bind=""></span></td>
+                                        <td><span ng-bind=""></span></td>
+                                        <td><input type="radio" ng-model="selectedTechName" value="{{technology.id}}" name="TechnologyNames" />{{technology.TechName}}</td>
+                                    </tr>
+                                </table>-->
+                                <!--<span class="col-sm-3 control-label"><span name="TechnologyName" class="mandetoryField" ng-bind="TechnologyName" /> </span>-->
+                            </div>
+                        </div>
+                        
+                        <div ng-show="messageDisplay">
+                            <b><span ng-bind="messageNoRecords"></span></b>
+                            <br />
+                            <button ng-click="AddNewSkillInTechnology()"><img src="Images/add.png" /></button> <label>Add New Skills</label>
+                        </div>
+                        
+
+                        <div class="row form-group" ng-show="skillDiv">
+                            <label class="col-sm-3 control-label"><label class="mandetoryField" />Skills</label>
+                            <div class="col-sm-6">
+                                <table>
+                                    <tr ng-repeat="skill in skillsInTechnology">
+                                        <td><span>{{skill.SkillName}}</span></td>
+                                        <td><a ng-click="deleteSkill(skill.SkillName,skill.id)"><img src="Images/ic-remove.png" /></a></td>
+                                        <td ng-show="$last"><a ng-click="AddNewSkill()"><img src="Images/add.png" /></a></td>
+                                    </tr>
+                                    <tr ng-show="addnewSkill">
+                                        <td>
+                                            <input type="text" ng-model="NewSkillName" />
+                                        </td>
+                                        <td>
+                                            <input type="button" value="Add" ng-click="AddNewSkillData()" />
+                                        </td>
+                                    </tr>
+                                </table>
+                                <!--<div ng-repeat="skill in skillsInTechnology">
+                                    <span>{{skill.SkillName}}</span>
+                                    <input type="button"  class="addSkill" />
+                                    <input type="button" class="removeSkill" />
+                                    <a><img src="Images/add.png" /></a>
+                                    <a><img src="Images/ic-remove.png" /></a>
+                                </div>-->
+                            </div>
+                            
+                        </div>
+
+                        <div class="row form-group">
+                            <label class="col-sm-3 control-label"></label>
+                            <div class="col-sm-9">
+                                <input type="submit" name="name" ng-click="saveSkills()" ng-show="saveBtn" value="Submit" class="btn btn-primary" />
+                                <input type="button" value="Back" ng-click="DisplayList()" class="btn btn-primary" />
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </form>
+    <br />
+    <div class="wthbox" ng-show="listDisplay">
+        <table class="table grid table-condensed table-hover" id="tblSkills" width="100%"></table>
+    </div>
+</div>
+
